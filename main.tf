@@ -8,7 +8,7 @@ resource "aws_instance" "AppServerBox" {
   associate_public_ip_address = true
   ebs_optimized               = false
   key_name                    = "${var.key_name}"
-  user_data                   = "${data.template_file.jenkins_data.rendered}"
+  user_data                   = "${data.template_file.appserver_data.rendered}"
   #subnet_id                   = "${aws_subnet.public[0]}"
   subnet_id              = "${element(aws_subnet.public.*.id, 0)}"
   vpc_security_group_ids = ["${aws_security_group.apps_allow.id}"]
