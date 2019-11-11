@@ -2,7 +2,7 @@ variable "instance_type" {
   default = "t2.micro"
 }
 variable "key_name" {
-  default = "jenkins_key4"
+  default = "belgium2"
 }
 variable "ami_id" {
   default = "ami-0ce71448843cb18a1"
@@ -33,5 +33,13 @@ variable "vpc_cidr" {
 variable "az_count" {
   description = "Number of availability zones to use"
   default     = 2
+}
+
+
+variable "subnet_id" {
+  default = "subnet-09f862fb2c5f18231"
+}
+variable "vpc_id" {
+  default = "vpc-03cae2394c862efc9"
 }
 
