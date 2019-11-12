@@ -1,25 +1,25 @@
-data "template_file" "appserver_data" {
-  template = "${file("template/appserver-data.tpl")}"
+data "template_file" "webserver_data" {
+  template = "${file("template/webserver-data.tpl")}"
 }
 
-resource "aws_instance" "AppServerBox" {
+resource "aws_instance" "WebServerBox" {
   ami                         = "${var.ami_id}"
   instance_type               = "${var.instance_type}"
   associate_public_ip_address = true
   ebs_optimized               = false
   key_name                    = "${var.key_name}"
-  user_data                   = "${data.template_file.appserver_data.rendered}"
+  user_data                   = "${data.template_file.webserver_data.rendered}"
   #subnet_id                   = "${aws_subnet.public[0]}"
   subnet_id              = "${element(aws_subnet.public.*.id, 0)}"
-  vpc_security_group_ids = ["${aws_security_group.apps_allow.id}"]
+  vpc_security_group_ids = ["${aws_security_group.web_allow.id}"]
 
   tags = {
-    Name = "AppServerBox"
+    Name = "WebServerBox"
   }
 }
 
-resource "aws_security_group" "apps_allow" {
-  name        = "apps_allow"
+resource "aws_security_group" "web_allow" {
+  name        = "web_allow"
   description = "Allow all inbound traffic"
   vpc_id      = "${aws_vpc.vpc.id}"
 
@@ -52,7 +52,7 @@ resource "aws_security_group" "apps_allow" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
-    Name = "AppServerBox SG"
+    Name = "WebServerBox SG"
   }
 }
 
